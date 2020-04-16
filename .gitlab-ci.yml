@@ -1,0 +1,30 @@
+
+stages:
+  - build
+#  - run
+
+
+build_mysql_image:
+  stage: build
+  tags:
+    # Faire tourner le runner en locale
+    - shell
+  script:
+    - docker build -t  my-mysql mysql/
+
+build_php_image:
+  stage: build
+  tags:
+    - shell
+  script:
+    - docker build -t  my-php-fpm-mysqli php-fpm-mysqli/
+
+# N'est pas demandé par ECOCO2 de faire le run
+#run_docker-compose:
+#  stage: run
+#  tags:
+#    - shell
+#  script:
+#    - docker-compose stop
+#    - docker-compose rm -f
+#    - docker-compose up -d

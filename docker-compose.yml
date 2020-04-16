@@ -1,0 +1,31 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:1.17
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+    volumes:
+      - ./nginx/default:/etc/nginx/conf.d/default.conf
+  php:
+    #Image build by gitlab-runner, please check .gitlab-ci.yml
+    image: my-php-fpm-mysqli
+    ports:
+      - "9000:9000"
+    environment:
+      MYSQL_DATABASE: foo
+      MYSQL_USER: toto
+      MYSQL_PASSWORD: titi
+  mysql:
+    #Image build by gitlab-runner, please check .gitlab-ci.yml
+    image: my-mysql
+    ports:
+      - "3306:3306"
+    depends_on:
+      - php
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: foo
+      MYSQL_USER: toto
+      MYSQL_PASSWORD: titi
